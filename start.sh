@@ -1,2 +1,2 @@
-source myenv/bin/activate
-python3 record_gpio.py
+source ./myenv/bin/activate
+python3 ./record_gpio.py

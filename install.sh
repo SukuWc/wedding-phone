@@ -13,3 +13,5 @@ sudo apt-get install libasound2-dev
 pip install simpleaudio
 
 pip install soundfile
+
+sudo apt-get install pulseaudio pulseaudio-utils

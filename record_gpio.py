@@ -8,6 +8,13 @@ import RPi.GPIO as GPIO
 import simpleaudio as sa
 import soundfile as sf
 
+script_dir = os.path.dirname(os.path.realpath(__file__))
+
+# **** List of CAPTURE Hardware Devices ****
+# card 3: Headset [Logitech USB Headset], device 0: USB Audio [USB Audio]
+#   Subdevices: 1/1
+#   Subdevice #0: subdevice #0
+
 # Set the GPIO mode and the pin
 GPIO.setmode(GPIO.BCM)
 rec_button_pin = 21  # Change this to the GPIO pin you're using
@@ -26,8 +33,13 @@ FILENAME_PREFIX = 'recording'
 PLAY_FILE = 'hello.wav'
   
 
-def play_audio(file_path, device_name):
+def play_audio(file_name, device_name):
     # Load the audio file
+    # Directory where you want to search for files
+
+    # Construct the absolute path to the file
+    file_path = os.path.join(script_dir, file_name)
+
     data, fs = sf.read(file_path)
 
     # Query available audio devices
@@ -48,9 +60,7 @@ def play_audio(file_path, device_name):
 
 def play_on_keypress():
 
-    # Directory where you want to search for files
-    directory = "./"
-    directory = os.getcwd()
+    directory = script_dir
 
     # Get a list of files in the directory
     files = os.listdir(directory)
@@ -104,7 +114,11 @@ def record_on_keypress():
     full_audio_data = np.concatenate(audio_data, axis=0)
 
     # Save audio to file using wave module
-    with wave.open(filename, 'wb') as wav_file:
+
+    file_path = os.path.join(script_dir, filename)
+    print(file_path)
+
+    with wave.open(file_path, 'wb') as wav_file:
         wav_file.setnchannels(1)
         wav_file.setsampwidth(2)
         wav_file.setframerate(SAMPLE_RATE)
